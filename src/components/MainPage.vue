@@ -35,7 +35,8 @@ import WeatherCard from './WeatherCard.vue';
     setup() {
         const store = useWeatherStore();
         const location = store.fetchUserLocaiton();
-        return { location, store };
+        const check = store.checkIfFirstTime()
+        return { location, store, check };
     },
     data(){
         return{

@@ -62,7 +62,7 @@ export const useWeatherStore = defineStore("weather", {
     },
     async checkIfFirstTime() {
       const locations = JSON.parse(localStorage.getItem("cities") || "{}");
-      if (locations !== null) {
+      if (locations !== (null || {})) {
         this.setLocalStorageLocations(locations);
       }
 
