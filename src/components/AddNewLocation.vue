@@ -33,6 +33,7 @@
 import { defineComponent } from "vue";
 import { useWeatherStore } from "../store/weather";
 import locationsData from "../assets/locations.json";
+import {City} from "../store/weather";
 
 export default defineComponent({
   name: "MainPage",
@@ -52,14 +53,14 @@ export default defineComponent({
     };
   },
   methods: {
-    changeCountry(e: any) {
-      let myTarget = JSON.parse(JSON.stringify(this.locations[e.target.value]));
-      this.country = e.target.value;
+    changeCountry(e: Event) {
+      let myTarget = JSON.parse(JSON.stringify(this.locations[(e.target as HTMLInputElement).value]));
+      this.country = (e.target as HTMLInputElement).value;
       this.cities = myTarget;
       this.city = myTarget[0];
     },
-    changeCity(e: any) {
-      this.city = e.target.value;
+    changeCity(e: Event) {
+      this.city = (e.target as HTMLInputElement).value;
     },
     addLocation() {
       let newLocation = {

@@ -6,7 +6,7 @@
     </div>
     
     </header>
-    <div class="weather-wrapper">
+    <div class="weather-wrapper" v-if="!isLoading">
         <WeatherCard
             v-for="weather in store.weather"
             :key="weather.id"
@@ -15,8 +15,13 @@
             :location="`${weather.name}, ${weather.sys.country}`"
             :description="`Feels like ${Math.round(weather.main.feels_like)}&#8451;, ${weather.weather[0].description}`"
             :icon="weather.weather[0].icon"
+            :wind="weather.wind.speed"
+            :pressure="weather.main.pressure"
+            :humidity="weather.main.humidity"
+            :visibility="weather.visibility"
         />
     </div>
+  <div v-else>Loading...</div>
    <SettingsModal 
         v-if="isSettingsModalOpen"
         v-on:close-settings="closeSettings"
@@ -34,14 +39,16 @@ import WeatherCard from './WeatherCard.vue';
     components: { SettingsModal, WeatherCard },
     setup() {
         const store = useWeatherStore();
-        const location = store.fetchUserLocaiton();
-        const check = store.checkIfFirstTime()
-        return { location, store, check };
+        const isLoading = store.isLoading
+        return { store, isLoading };
     },
     data(){
         return{
             isSettingsModalOpen: false,
         }
+    },
+    mounted() {
+      this.store.checkIfFirstTime()
     },
     methods:{
         closeSettings(){
@@ -57,9 +64,14 @@ import WeatherCard from './WeatherCard.vue';
   <style scoped lang="scss">
     .weather-wrapper{
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+      flex-wrap: wrap;
         gap: 10px;
         padding-top: 10px;
+        justify-content: center;
+      @media screen and (min-width: 890px) {
+        justify-content: flex-start;
+      }
       
     }
     .header{

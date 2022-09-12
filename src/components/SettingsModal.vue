@@ -77,9 +77,9 @@ export default defineComponent({
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
       const startIndex = this.weather.cities.findIndex((e) => e.id == item.id);
-      event.dataTransfer.setData("startIndex", startIndex);
+      event.dataTransfer?.setData("startIndex", startIndex);
     },
-    swapItems(array: any[], startIndex: number, endIndex: number) {
+    swapItems(array: City[], startIndex: number, endIndex: number) {
       let temp = array[startIndex];
       array[startIndex] = array[endIndex];
       array[endIndex] = temp;

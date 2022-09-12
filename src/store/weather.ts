@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios, { AxiosResponse } from "axios";
 
 export interface State {
-  cities: any[];
+  cities: City[];
   weather: any[];
   isLoading: boolean;
 }
@@ -11,6 +11,10 @@ export interface City {
   id: Date;
   city: string;
   country: string;
+}
+interface Indexes{
+  startIndex: number;
+  endIndex: number;
 }
 
 export const useWeatherStore = defineStore("weather", {
@@ -21,9 +25,8 @@ export const useWeatherStore = defineStore("weather", {
   }),
   getters: {},
   actions: {
-    swapItems(indexes: any) {
+    swapItems(indexes: Indexes) {
       const { startIndex, endIndex } = indexes;
-
       const temp = this.weather[startIndex];
       this.weather[startIndex] = this.weather[endIndex];
       this.weather[endIndex] = temp;
@@ -38,9 +41,7 @@ export const useWeatherStore = defineStore("weather", {
             `https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&appid=${process.env.VUE_APP_MY_WEATHER_API_KEY}`
           )
           .then((response: AxiosResponse) => {
-            // const res = response.data as any []
             this.weather.push(response.data);
-            console.log(response.data);
           })
           .catch((error) => {
             console.log(error);
@@ -62,15 +63,12 @@ export const useWeatherStore = defineStore("weather", {
     },
     async checkIfFirstTime() {
       const locations = JSON.parse(localStorage.getItem("cities") || "{}");
-      if (locations !== (null || {})) {
-        this.setLocalStorageLocations(locations);
+      if ( Object.keys(locations).length !== 0) {
+        await this.setLocalStorageLocations(locations);
       }
 
-      if (this.cities.length === 0) {
-        console.log("HERE", this.cities.length);
-
+      if ( Object.keys(locations).length === 0) {
         this.isLoading = true;
-
         await this.fetchUserLocaiton().then((user_location) => {
           const locations = [
             {
@@ -88,16 +86,15 @@ export const useWeatherStore = defineStore("weather", {
     },
     async fetchAllLocations() {
       this.isLoading = true;
-
       for (let i = 0; i < this.cities.length; i++) {
         await this.fetchWeather(this.cities[i].city, this.cities[i].country);
       }
-
       this.isLoading = false;
     },
     setLocalStorageLocations(loc: City[]) {
       localStorage.setItem("cities", JSON.stringify(loc));
       const locations = JSON.parse(localStorage.getItem("cities") || "{}");
+      console.log(locations, 'setLocalStorageLocations')
       locations !== "{}" ? (this.cities = locations) : (this.cities = []);
     },
   },

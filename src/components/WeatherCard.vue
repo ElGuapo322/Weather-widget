@@ -13,6 +13,41 @@
         </div>
         <span>{{ description }}</span>
       </div>
+
+    </div>
+    <div class="content">
+      <div class="content__row">
+        <div class="icon-wrapper">
+          <img src="../assets/icons/wind-weather-svgrepo-com.svg"/>
+        </div>
+        <div class="content__row__caption">
+          <span>{{`Wind: ${wind} m/s`}}</span>
+        </div>
+      </div>
+      <div class="content__row">
+        <div class="icon-wrapper">
+          <img src="../assets/icons/pressure-svgrepo-com.svg"/>
+        </div>
+        <div class="content__row__caption">
+          <span>{{`Atmospheric pressure: ${pressure} hPa`}}</span>
+        </div>
+      </div>
+      <div class="content__row">
+        <div class="icon-wrapper">
+          <img src="../assets/icons/drops-svgrepo-com.svg"/>
+        </div>
+        <div class="content__row__caption">
+          <span>{{`Humidity: ${humidity} %`}}</span>
+        </div>
+      </div>
+      <div class="content__row">
+        <div class="icon-wrapper">
+          <img src="../assets/icons/visibility-view-svgrepo-com.svg"/>
+        </div>
+        <div class="content__row__caption">
+          <span>{{`Visibility: ${visibility} m`}}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,6 +77,19 @@ export default defineComponent({
     icon: {
       type: String,
     },
+    wind:{
+      type: Number,
+    },
+    pressure:{
+      type: Number,
+    },
+    humidity:{
+      type: Number,
+    },
+    visibility:{
+      type: Number,
+    },
+
   },
   data() {
     return {
@@ -72,6 +120,8 @@ export default defineComponent({
         return require("../assets/weather/thunderstorm.jpg");
       } else if (key === "overcast clouds") {
         return require("../assets/weather/overcast-clouds.jpg");
+      } else if (key === "moderate rain") {
+        return require("../assets/weather/moderate-rain.jpg");
       }
       return "";
     },
@@ -90,6 +140,8 @@ h2 {
   height: 300px;
   border-radius: 5px;
   padding: 5px;
+  display: flex;
+  flex-direction: column;
   -webkit-box-shadow: 6px 6px 24px -2px rgba(0, 4, 7, 0.6);
   -moz-box-shadow: 6px 6px 24px -2px rgba(0, 4, 7, 0.6);
   box-shadow: 6px 6px 24px -2px rgba(0, 4, 7, 0.6);
@@ -111,6 +163,30 @@ h2 {
         width: 30%;
       }
     }
+  }
+}
+.content{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.content__row{
+  display:flex ;
+  align-content: center;
+  gap: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #dedede;
+  &__caption{
+    display: flex;
+    align-items: center;
+  }
+}
+.icon-wrapper{
+  width: 24px;
+  height: 24px;
+  &>img{
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
