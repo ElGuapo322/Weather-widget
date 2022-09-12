@@ -91,13 +91,6 @@ export default defineComponent({
     },
 
   },
-  data() {
-    return {
-      weatherImages: {
-        "broken clouds": "02d",
-      },
-    };
-  },
   methods: {
     getWeatherImage(key: string): string {
       if (key === "broken clouds") {

@@ -8,6 +8,7 @@
     </header>
     <div class="weather-wrapper" v-if="!isLoading">
         <WeatherCard
+
             v-for="weather in store.weather"
             :key="weather.id"
             :temperature="Math.round(weather.main.temp)"
@@ -21,7 +22,7 @@
             :visibility="weather.visibility"
         />
     </div>
-  <div v-else>Loading...</div>
+  <div v-else>LOADING, PLEASE WAIT</div>
    <SettingsModal 
         v-if="isSettingsModalOpen"
         v-on:close-settings="closeSettings"
@@ -39,7 +40,7 @@ import WeatherCard from './WeatherCard.vue';
     components: { SettingsModal, WeatherCard },
     setup() {
         const store = useWeatherStore();
-        const isLoading = store.isLoading
+        const isLoading = store.getLoading
         return { store, isLoading };
     },
     data(){

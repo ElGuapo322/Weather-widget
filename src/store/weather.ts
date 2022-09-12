@@ -23,7 +23,9 @@ export const useWeatherStore = defineStore("weather", {
     weather: [] as any[],
     isLoading: false,
   }),
-  getters: {},
+  getters: {
+    getLoading: (state) => state.isLoading,
+  },
   actions: {
     swapItems(indexes: Indexes) {
       const { startIndex, endIndex } = indexes;
